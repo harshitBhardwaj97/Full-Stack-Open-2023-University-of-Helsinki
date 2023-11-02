@@ -1,17 +1,47 @@
 import React from "react";
 
-const PersonsList = ({ searchQuery, persons }) => {
+const PersonsList = ({ searchQuery, persons, handleDelete }) => {
   return searchQuery === ""
     ? persons.map((person) => (
-        <div key={person.name}>
-          {person.name} {person.phonenumber}
-        </div>
+        <>
+          <div
+            key={person.id}
+            style={{ display: "flex", gap: "4px", margin: "2px" }}
+          >
+            {person.name} {person.phonenumber}
+            <button
+              onClick={() => {
+                handleDelete(person.name, person.id);
+                // deleteHandler(person.name, person.id);
+              }}
+            >
+              Delete
+            </button>
+          </div>
+        </>
       ))
     : persons
-        .filter((person) => person.name.toLowerCase().includes(searchQuery))
+        .filter((person) => {
+          return (
+            person.name.toLowerCase().includes(searchQuery) ||
+            person.name.includes(searchQuery)
+          );
+        })
         .map((person) => (
-          <div key={person.name}>
+          <div
+            key={person.id}
+            style={{ display: "flex", gap: "4px", margin: "2px" }}
+          >
             {person.name} {person.phonenumber}
+            <button
+              button
+              onClick={() => {
+                handleDelete(person.name, person.id);
+                // deleteHandler(person.name, person.id);
+              }}
+            >
+              Delete
+            </button>
           </div>
         ));
 };
