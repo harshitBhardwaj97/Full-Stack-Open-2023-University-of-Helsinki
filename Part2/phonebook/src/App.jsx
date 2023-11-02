@@ -31,25 +31,45 @@ const App = () => {
     if (nameAlreadyPresent.length > 0) {
       if (
         confirm(
-          `${newName} is already added to phonebook, replace old number with new number ?`
+          `${nameAlreadyPresent[0].name} is already added to phonebook, replace old number with new number ?`
         )
       ) {
-        console.log(nameAlreadyPresent);
-        // phonebookService
-        //   .updateExistingPerson(nameAlreadyPresent[0].id, newPerson)
-        //   .then((response) => console.log(response, response.data));
+        phonebookService
+          .updateExistingPerson(nameAlreadyPresent[0].id, {
+            ...nameAlreadyPresent[0],
+            phonenumber: newPhoneNumber,
+          })
+          .then((response) => {
+            console.log(response, response.data);
+          });
+        /*
+        phonebookService.getAllNumbers().then((response) => {
+          const allPersons = response.data;
+          console.log(allPersons);
+          const foundPerson = allPersons.filter(
+            (person) => person.name === newName
+          );
+          console.log(foundPerson, foundPerson[0].id);
+          phonebookService
+            .updateExistingPerson(foundPerson[0].id, {
+              ...foundPerson[0],
+              phonenumber: newPhoneNumber,
+            })
+            .then((response) => {
+              console.log(response.data);
+            });
+        });*/
       }
       setNewName("");
       setnewPhoneNumber("");
-      return;
+    } else {
+      phonebookService.addPerson(newPerson).then((response) => {
+        console.log(response, response.data);
+        setPersons(persons.concat(newPerson));
+        setNewName("");
+        setnewPhoneNumber("");
+      });
     }
-
-    phonebookService.addPerson(newPerson).then((response) => {
-      console.log(response, response.data);
-      setPersons(persons.concat(newPerson));
-      setNewName("");
-      setnewPhoneNumber("");
-    });
   };
 
   const handleDelete = (name, id) => {

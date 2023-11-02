@@ -18,4 +18,9 @@ const updateExistingPerson = (personId, updatedPerson) => {
   return axios.put(`${BASE_URL}/${personId}`, updatedPerson);
 };
 
-export default { getAllNumbers, addPerson, deletePerson, updateExistingPerson };
+export default {
+  getAllNumbers,
+  addPerson,
+  deletePerson,
+  updateExistingPerson,
+};
