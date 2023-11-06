@@ -2,7 +2,6 @@ let phonebookRecords = require("./data/phonebookdata");
 const express = require("express");
 const morgan = require("morgan");
 const PORT = process.env.PORT;
-const Person = require("./models/personModel");
 const app = express();
 
 app.use(express.json());
