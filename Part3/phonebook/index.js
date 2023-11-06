@@ -1,10 +1,18 @@
-let phonebookRecords = require("./data/phonebookdata");
+require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
-
+const cors = require("cors");
+const mongoose = require("mongoose");
+const url = process.env.MONGO_URI;
+const PORT = process.env.PORT;
+const Person = require("./models/personModel");
 const app = express();
 
 app.use(express.json());
+app.use(cors());
+
+app.use(express.static("dist"));
+
 morgan.token("body", (req) => {
   return req.method === "POST" ? JSON.stringify(req.body) : "";
 });
@@ -24,92 +32,145 @@ app.use(
   })
 );
 
-const PORT = 3001;
-
-const generateId = () => Math.floor(Math.random() * 1000000);
-
-const doesNameExist = (personName) =>
-  phonebookRecords.find((person) => person.name === personName);
-
-app.get(`/api/persons`, (request, response) => {
-  response.status(200).json(phonebookRecords);
+app.get(`/api/persons`, async (request, response) => {
+  try {
+    const persons = await Person.find({});
+    response.status(200).json(persons);
+    console.log(persons);
+  } catch (error) {
+    response.status(500);
+    console.error(error);
+  }
 });
 
 app.get(`/info`, (request, response) => {
-  const date = new Date();
-  const numberOfPeople = phonebookRecords.length;
-  const info = `
+  try {
+    const date = new Date();
+    Person.find({}).then((persons) => {
+      const info = `
     <div>
-    <p>Phonebook has info of ${numberOfPeople} people</p>
+    <p>Phonebook has info of ${persons.length} people</p>
     <p>${date}</p>
     </div>
     `;
-
-  response.status(200).send(info);
-});
-
-app.get(`/api/persons/:id`, (request, response) => {
-  const id = Number(request.params.id);
-
-  const person = phonebookRecords.find((record) => record.id === id);
-
-  if (person) {
-    response.status(200).send(person);
-  } else {
-    response
-      .status(404)
-      .json({ error: `Person with id ${id} not found`, status: 404 });
-  }
-});
-
-app.delete(`/api/persons/:id`, (request, response) => {
-  const id = Number(request.params.id);
-
-  const person = phonebookRecords.find((record) => record.id === id);
-
-  if (person) {
-    response
-      .status(204)
-      .json({ message: `Person with id ${id} deleted Successfully` });
-    phonebookRecords = phonebookRecords.filter((record) => record.id !== id);
-    // console.log(phonebookRecords);
-  } else {
-    response.status(404).json({
-      error: `Cannot delete since person with with id ${id} not found`,
+      response.status(200).send(info);
     });
+  } catch (error) {
+    response.status(500).json({ error: error.message });
   }
 });
 
-app.post(`/api/persons`, (request, response) => {
-  const id = generateId();
-  const personName = request.body.name;
-  const personNumber = request.body.number;
+app.get(`/api/persons/:id`, async (request, response, next) => {
+  try {
+    const id = request.params.id;
 
-  if (
-    personName === null ||
-    personName === "" ||
-    personNumber === null ||
-    personNumber === ""
-  ) {
-    response
-      .status(500)
-      .json({ error: `Name or Number is missing in the content body !` })
-      .end();
-  } else if (personName && doesNameExist(personName)) {
-    response.status(500).json({ error: `Name must be unique` }).end();
-  } else {
-    const addedPerson = {
+    const person = await Person.findById(id);
+
+    if (person) {
+      response.status(200).json(person);
+      console.log(person);
+    } else {
+      response.status(404).json({ error: "Not Found !" });
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.post("/api/persons", async (request, response, next) => {
+  try {
+    const body = request.body;
+
+    // const duplicateNameId = await Person.findOne({ name: body.name }, "_id");
+
+    // console.log(duplicateNameId, body.name, body.phoneNumber);
+
+    const person = new Person({
+      name: body.name,
+      phoneNumber: body.phoneNumber,
+    });
+
+    // if (duplicateNameId) {
+    //   await Person.findByIdAndUpdate(
+    //     duplicateNameId,
+    //     {
+    //       name: body.name,
+    //       phoneNumber: body.phoneNumber,
+    //     },
+    //     { new: true }
+    //   );
+    //   response.status(200).json({
+    //     message: `Person with name ${body.name} updated successfully !`,
+    //   });
+    // }
+
+    const savedPerson = await person.save();
+
+    response.status(201).json(savedPerson);
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.put(`/api/persons/:id`, async (request, response, next) => {
+  try {
+    const body = request.body;
+    const id = request.params.id;
+    await Person.findByIdAndUpdate(
       id,
-      name: personName,
-      number: personNumber,
-    };
-    phonebookRecords = phonebookRecords.concat(addedPerson);
-    console.log(id, personName, personNumber, doesNameExist(personName));
-
-    response.status(201).json(addedPerson).end();
+      {
+        name: body.name,
+        phoneNumber: body.phoneNumber,
+      },
+      { new: true, runValidators: true, context: "query" }
+    );
+    response.status(200).json({
+      message: `Person with name ${body.name} updated successfully !`,
+    });
+  } catch (error) {
+    next(error);
   }
 });
 
-app.listen(3001, () => {
-  console.log(`Server started on 3001`);
+app.delete("/api/persons/:id", async (request, response, next) => {
+  try {
+    const id = request.params.id;
+
+    const deletedPerson = await Person.findByIdAndDelete(id);
+    console.log(deletedPerson);
+
+    if (deletedPerson !== null) {
+      response.status(204).json(deletedPerson);
+    } else {
+      response.status(404).json({
+        error: `Cannot delete person with id ${id}, because person is not found !`,
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
 });
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message);
+
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "Malformatted id" });
+  } else if (error.name === "ValidationError") {
+    return response.status(400).send({ error: error.message });
+  }
+
+  next(error);
+};
+
+app.use(errorHandler);
+
+mongoose
+  .connect(url)
+  .then(() => {
+    console.log(`Connected with DB Successfully !`);
+    app.listen(PORT, () => {
+      console.log(`Server started on ${PORT}`);
+    });
+  })
+  .catch((error) => console.log(error));

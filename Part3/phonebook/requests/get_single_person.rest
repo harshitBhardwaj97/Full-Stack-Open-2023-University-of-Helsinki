@@ -1,1 +1,12 @@
-GET http://localhost:3001/api/persons/1
+//Found ID example (Arto Vihavainen)
+GET http://localhost:3001/api/persons/65473d0f69cd4e8b5969a991
+
+#########################################
+
+// Not Found ID example
+GET http://localhost:3001/api/persons/6547e2c467c632aaf361fc80
+
+#########################################
+
+// Malformatted ID example
+GET http://localhost:3001/api/persons/123
