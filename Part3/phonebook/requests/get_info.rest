@@ -1,0 +1,2 @@
+//Get Info API
+GET http://localhost:3001/info

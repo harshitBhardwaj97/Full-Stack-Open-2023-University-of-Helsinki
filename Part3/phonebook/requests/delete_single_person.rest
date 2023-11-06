@@ -1,1 +1,8 @@
-DELETE  http://localhost:3001/api/persons/586960
+
+// Not found Id Example
+DELETE  http://localhost:3001/api/persons/6547e2c467c632aaf361fc80
+
+#########################################
+
+// Malformatted ID example
+DELETE http://localhost:3001/api/persons/123
