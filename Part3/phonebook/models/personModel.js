@@ -9,7 +9,7 @@ const url = process.env.MONGO_URI;
 mongoose
   .connect(url)
 
-  .then((result) => {
+  .then(() => {
     console.log("Connected to MongoDB");
   })
   .catch((error) => {
