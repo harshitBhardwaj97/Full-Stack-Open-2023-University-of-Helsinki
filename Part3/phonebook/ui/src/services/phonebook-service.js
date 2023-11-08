@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = `http://localhost:3001/api/persons`;
+const BASE_URL = `https://fullstack-university-of-helenski-nodejs.onrender.com/api/persons`;
 
 const getAllNumbers = () => {
   return axios.get(`${BASE_URL}`);
