@@ -1,0 +1,26 @@
+POST http://localhost:3001/api/blogs/
+content-type: application/json 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hdHRpIiwiaWQiOiI2NTRlMjUzM2Y3YTFiYTVjZDRkNGY0ZTUiLCJpYXQiOjE2OTk2Mjg4MTN9.UFaWBKUrJewZDaEXWAAbHCUFEJI9-52sol_NVGB_FL8
+
+{
+    "title" : "Haskell MOOC",
+    "author" : "Matti Luukkainen",
+    "url" : "https://haskell.mooc.fi/",
+    "likes" : "200000",
+    "userId" : "654e2533f7a1ba5cd4d4f4e5"
+}
+
+##########
+
+POST http://localhost:3001/api/blogs/
+content-type: application/json 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRhbiIsImlkIjoiNjU0ZTRiZDQ5MjE0Y2QyOTFiODVkN2U1IiwiaWF0IjoxNjk5NjMwMDcyfQ.JCr6ztHc4gNPM11guDodv4UBJd-Jwr9dx3lQd-vW4LQ
+
+
+{
+    "title" : "Blog added by Dan Abramov",
+    "author" : "Dan Abramov",
+    "url" : "https://fullstackopen.com/en",
+    "likes" : "9000",
+    "userId" : "654e2533f7a1ba5cd4d4f7e5"
+}
