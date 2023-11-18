@@ -18,7 +18,7 @@ const AnecdoteForm = () => {
         <fieldset>
           <legend>Anecdote</legend>
           <div>
-            <input type="text" name="content" />
+            <input type="text" name="content" required />
           </div>
           <button type="submit">Create</button>
         </fieldset>
