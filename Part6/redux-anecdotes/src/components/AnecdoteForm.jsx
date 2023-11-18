@@ -1,5 +1,5 @@
 import React from "react";
-import { addAnecdote } from "../reducers/anecdoteReducer";
+import { addAnecdote } from "../reducers/anecdoteSlice";
 import { useDispatch } from "react-redux";
 
 const AnecdoteForm = () => {

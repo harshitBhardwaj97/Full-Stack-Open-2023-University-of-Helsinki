@@ -1,4 +1,4 @@
-import { setFilter } from "../reducers/filterReducer";
+import { filterAnecdote } from "../reducers/filterSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const Filter = ({ handleQuery }) => {
@@ -7,7 +7,7 @@ const Filter = ({ handleQuery }) => {
   //   const filter = useSelector((state) => state.filter);
   const handleChange = (e) => {
     handleQuery(e.target.value);
-    dispatch(setFilter(e.target.value));
+    dispatch(filterAnecdote(e.target.value));
   };
   const style = {
     marginBottom: 10,

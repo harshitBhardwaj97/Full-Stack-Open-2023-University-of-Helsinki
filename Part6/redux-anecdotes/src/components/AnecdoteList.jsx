@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { voteAnecdote, addAnecdote } from "../reducers/anecdoteReducer";
+import { voteAnecdote, addAnecdote } from "../reducers/anecdoteSlice";
 import { queryAllByAltText } from "@testing-library/react";
 
 const AnecdoteList = ({ query }) => {
