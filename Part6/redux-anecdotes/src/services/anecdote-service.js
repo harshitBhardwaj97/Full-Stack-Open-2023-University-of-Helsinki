@@ -18,4 +18,21 @@ const createNewAnecdote = async (anecdoteContent) => {
   return response.data;
 };
 
-export default { getAllAnecdotes, createNewAnecdote };
+const voteAnecdote = async (anecdoteId) => {
+  const anecdotes = await getAllAnecdotes();
+
+  const anecdoteToBeVoted = anecdotes.find(
+    (anecdote) => anecdote.id === anecdoteId
+  );
+
+  const votedAnecdote = {
+    ...anecdoteToBeVoted,
+    votes: anecdoteToBeVoted.votes + 1,
+  };
+
+  const response = await axios.put(`${baseUrl}/${anecdoteId}`, votedAnecdote);
+
+  return response.data;
+};
+
+export default { getAllAnecdotes, createNewAnecdote, voteAnecdote };

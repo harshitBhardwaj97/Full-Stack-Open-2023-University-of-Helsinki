@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
-import { voteAnecdote, setAnecdotes } from "../reducers/anecdoteSlice";
+import { voteAnecdote } from "../reducers/anecdoteSlice";
+import { saveAnecdoteVote } from "../reducers/anecdoteSlice";
 
 const AnecdoteList = ({ query }) => {
   const anecdotes = useSelector((state) => state.anecdotes);
@@ -20,8 +21,9 @@ const AnecdoteList = ({ query }) => {
           anecdote.content.toLowerCase().includes(query)
         );
 
-  const vote = (id) => {
-    dispatch(voteAnecdote(id));
+  const vote = async (id) => {
+    // Exercise 6.18
+    dispatch(saveAnecdoteVote(id));
   };
   return (
     <>
