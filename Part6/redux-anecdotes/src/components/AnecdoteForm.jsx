@@ -1,7 +1,6 @@
 import React from "react";
-import { addAnecdote } from "../reducers/anecdoteSlice";
 import { useDispatch } from "react-redux";
-import anecdoteService from "../services/anecdote-service";
+import { createNewAnecdote } from "../reducers/anecdoteSlice";
 
 const AnecdoteForm = () => {
   const dispatch = useDispatch();
@@ -10,8 +9,9 @@ const AnecdoteForm = () => {
     e.preventDefault();
     const anecdoteContent = e.target.content.value;
     e.target.content.value = "";
-    await anecdoteService.createNewAnecdote(anecdoteContent);
-    dispatch(addAnecdote(anecdoteContent));
+
+    // Exercise 6.17
+    dispatch(createNewAnecdote(anecdoteContent));
   };
 
   return (

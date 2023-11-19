@@ -4,16 +4,14 @@ import AnecdoteForm from "./components/AnecdoteForm";
 import Filter from "./components/Filter";
 import Notification from "./components/Notification";
 import { useState, useEffect } from "react";
-import { setAnecdotes } from "./reducers/anecdoteSlice";
-import anecdoteService from "./services/anecdote-service";
+import { initializeAnecdotes } from "./reducers/anecdoteSlice";
 
 const App = () => {
   const dispatch = useDispatch();
 
+  // Exercise 6.16
   useEffect(() => {
-    anecdoteService
-      .getAllAnecdotes()
-      .then((anecdotes) => dispatch(setAnecdotes(anecdotes)));
+    dispatch(initializeAnecdotes());
   }, []);
 
   const [query, setQuery] = useState("");
