@@ -1,9 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
-import { voteAnecdote, addAnecdote } from "../reducers/anecdoteSlice";
-import { queryAllByAltText } from "@testing-library/react";
+import { voteAnecdote, setAnecdotes } from "../reducers/anecdoteSlice";
 
 const AnecdoteList = ({ query }) => {
   const anecdotes = useSelector((state) => state.anecdotes);
+
+  const dispatch = useDispatch();
 
   //   console.log(anecdotes);
 
@@ -18,8 +19,6 @@ const AnecdoteList = ({ query }) => {
       : sortedAnecdotes.filter((anecdote) =>
           anecdote.content.toLowerCase().includes(query)
         );
-
-  const dispatch = useDispatch();
 
   const vote = (id) => {
     dispatch(voteAnecdote(id));
