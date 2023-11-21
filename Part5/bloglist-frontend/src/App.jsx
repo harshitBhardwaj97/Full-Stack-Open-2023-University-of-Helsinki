@@ -36,41 +36,7 @@ const App = () => {
   }, [message]);
 
   console.table(blogs);
-  // {
-  //   user && console.log(user.username);
-  // }
-
   return (
-    // <div>
-    //   {user === null ? (
-    //     <>
-    //     {message && <Notification message={message} />}
-    //       <Toggleable buttonLabel={login}>
-    //         <LoginForm/>
-    //        <Toggleable/>
-    //     </>
-    //   ) : (
-    //     <div>
-    //       {message && <Notification message={message} />}
-    //       <h1>{user.name} logged in</h1>
-    //       <Blogs
-    //         blogs={blogs}
-    //         user={user}
-    //         onMessageChange={handleMessageChange}
-    //       />
-    //       {/* <button onClick={() => handleUserChange(null)}>Logout</button> */}
-    //       <button
-    //         onClick={() => {
-    //           window.localStorage.clear();
-    //           handleUserChange(null);
-    //         }}
-    //       >
-    //         Logout
-    //       </button>
-    //     </div>
-    //   )}
-    // </div>
-    // </div>
     <div>
       <h1 style={{ color: "green", fontWeight: "bold", margin: "4px" }}>
         Blog Application
