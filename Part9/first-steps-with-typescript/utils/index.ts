@@ -1,10 +1,30 @@
-import { exerciseResult, rating, ratingDescription } from "../types";
+import {
+  exerciseResult,
+  rating,
+  ratingDescription,
+  bmiProgramValues,
+  exerciseProgramValues,
+} from "../types";
 
 /*
 --------------------------------
 Bmi Calculator Helper Functions
 --------------------------------
 */
+
+export const parseBmiProgramArgs = (args: string[]): bmiProgramValues => {
+  if (args.length < 4) throw new Error("Not enough arguments");
+  if (args.length > 4) throw new Error("Too many arguments");
+
+  if (!isNaN(Number(args[2])) && !isNaN(Number(args[3]))) {
+    return {
+      height: Number(args[2]),
+      weight: Number(args[3]),
+    };
+  } else {
+    throw new Error("Provided values were not numbers!");
+  }
+};
 
 export const getHeightSquaredInMetres = (heightInCm: number): number => {
   const heightInMts = heightInCm / 100;
@@ -35,6 +55,31 @@ Exercise Calculator Helper Functions
 -------------------------------------
 */
 
+export const parseExerciseProgramArgs = (
+  args: string[]
+): exerciseProgramValues => {
+  if (args.length < 5) throw new Error("Not enough arguments");
+
+  for (let i = 2; i < args.length; i++) {
+    if (Number.isNaN(Number(args[i]))) {
+      throw new Error("Non numeric argument(s) passed");
+    }
+
+    if (Number(args[i]) < 0) {
+      throw new Error("Negative argument(s) passed");
+    }
+  }
+
+  const arrArg: number[] = [];
+  for (let i = 2; i < args.length - 1; i++) {
+    arrArg.push(Number(args[i]));
+  }
+  return {
+    dailyExercises: arrArg,
+    target: Number(args[args.length - 1]),
+  };
+};
+
 const getTrainingDays = (dailyExerciseHours: number[]): number => {
   const trainingDays = dailyExerciseHours.filter(
     (exerciseHour) => exerciseHour > 0
@@ -64,7 +109,7 @@ export const getExerciseResult = (
 
   let rating: rating;
   let ratingDescription: ratingDescription;
-  console.log(metric);
+  // console.log(metric);
 
   if (metric <= 0.6) {
     rating = 1;

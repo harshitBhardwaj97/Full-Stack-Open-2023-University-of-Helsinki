@@ -1,4 +1,4 @@
-import { getExerciseResult } from "./utils";
+import { getExerciseResult, parseExerciseProgramArgs } from "./utils";
 import { exerciseResult } from "./types";
 
 const calculateExercises = (
@@ -8,4 +8,13 @@ const calculateExercises = (
   return getExerciseResult(dailyExerciseHours, target);
 };
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1, 5, 6, 0, 9], 4));
+try {
+  const { dailyExercises, target } = parseExerciseProgramArgs(process.argv);
+  console.log(calculateExercises(dailyExercises, target));
+} catch (error: unknown) {
+  let errorMessage = "Something bad happened.";
+  if (error instanceof Error) {
+    errorMessage += " Error: " + error.message;
+  }
+  console.log(errorMessage);
+}

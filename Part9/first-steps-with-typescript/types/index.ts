@@ -14,3 +14,13 @@ export interface exerciseResult {
   target: number;
   average: number;
 }
+
+export interface bmiProgramValues {
+  height: number;
+  weight: number;
+}
+
+export interface exerciseProgramValues {
+  dailyExercises: number[];
+  target: number;
+}
