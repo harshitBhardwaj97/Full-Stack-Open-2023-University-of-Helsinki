@@ -1,26 +1,34 @@
 import { useEffect, useState } from "react";
-import { NewDiaryEntry } from "../types";
-import { createEntry } from "../services/diary-service";
 import axios from "axios";
+import { createEntry } from "../services/diary-service";
 
 const AddNewDiary = () => {
-  const [date, setDate] = useState("");
-  const [visibility, setVisibility] = useState("");
-  const [weather, setWeather] = useState("");
-  const [comment, setComment] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [date, setDate] = useState<string>("");
+  const [visibility, setVisibility] = useState<string>("");
+  const [weather, setWeather] = useState<string>("");
+  const [comment, setComment] = useState<string>("");
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  useEffect(() => {}, [success]);
+  const filterSelected = (name: string, value: string) => {
+    if (name === "visibility") {
+      setVisibility(value);
+    }
+    if (name === "weather") {
+      setWeather(value);
+    }
+  };
+
+  useEffect(() => {}, [isSuccess]);
 
   const handleSubmit = async (event: React.BaseSyntheticEvent) => {
     event.preventDefault();
-    const newDiaryEntry: NewDiaryEntry = {
+    const newDiaryEntry = {
       date: event.target.date.value,
-      weather: event.target.weather.value,
-      visibility: event.target.visibility.value,
+      weather,
+      visibility,
       comment: event.target.comment.value,
     };
-    // console.log(newDiaryEntry);
+    console.log(newDiaryEntry);
 
     try {
       const data = await createEntry(newDiaryEntry);
@@ -29,7 +37,7 @@ const AddNewDiary = () => {
       setWeather("");
       setVisibility("");
       setComment("");
-      setSuccess(true);
+      setIsSuccess(true);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error.status);
@@ -49,47 +57,93 @@ const AddNewDiary = () => {
           <label htmlFor="date">
             Date :
             <input
-              type="text"
+              type="date"
               name="date"
               id="date"
-              value={date}
               required
               onChange={(e) => {
                 setDate(e.target.value);
               }}
             />
+            {/* {date} */}
           </label>
-          {date}
           <br />
           <label htmlFor="visibility">
             Visibility :
             <input
-              type="text"
+              type="radio"
               name="visibility"
-              id="visibility"
-              value={visibility}
+              id="great-visibility"
               required
-              onChange={(e) => {
-                setVisibility(e.target.value);
-              }}
+              onChange={() => filterSelected("visibility", "great")}
             />
+            <label>Great</label>
+            <input
+              type="radio"
+              name="visibility"
+              id="good-visibility"
+              onChange={() => filterSelected("visibility", "good")}
+            />
+            <label>Good</label>
+            <input
+              type="radio"
+              name="visibility"
+              id="ok-visibility"
+              onChange={() => filterSelected("visibility", "ok")}
+            />
+            <label>Ok</label>
+            <input
+              type="radio"
+              name="visibility"
+              id="poor-visibility"
+              onChange={() => filterSelected("visibility", "poor")}
+            />
+            <label>Poor</label>
           </label>
-          {visibility}
+          <br />
+          {/* {visibility} */}
           <br />
           <label htmlFor="weather">
             Weather :
             <input
-              type="text"
+              type="radio"
               name="weather"
-              id="weather"
-              value={weather}
+              id="sunny-weather"
               required
-              onChange={(e) => {
-                setWeather(e.target.value);
-              }}
+              onChange={() => filterSelected("weather", "sunny")}
             />
+            <label>Sunny</label>
+            <input
+              type="radio"
+              name="weather"
+              id="rainy-weather"
+              onChange={() => filterSelected("weather", "rainy")}
+            />
+            <label>Rainy</label>
+            <input
+              type="radio"
+              name="weather"
+              id="cloudy-weather"
+              onChange={() => filterSelected("weather", "cloudy")}
+            />
+            <label>Cloudy</label>
+            <input
+              type="radio"
+              name="weather"
+              id="stormy-weather"
+              onChange={() => filterSelected("weather", "stormy")}
+            />
+            <label>Stormy</label>
+            <input
+              type="radio"
+              name="weather"
+              id="windy-weather"
+              onChange={() => filterSelected("weather", "windy")}
+            />
+            <label>Windy</label>
           </label>
-          {weather}
+          <br />
+          {/* {weather} */}
           <br />
           <label htmlFor="comment">
             Comment :
@@ -98,15 +152,14 @@ const AddNewDiary = () => {
               name="comment"
               id="comment"
               value={comment}
-              required
               onChange={(e) => {
                 setComment(e.target.value);
               }}
             />
+            {/* {comment} */}
           </label>
-          {comment}
           <br />
-          <button type="submit">Create</button>
+          <button type="submit">Add</button>
         </fieldset>
       </form>
     </div>
