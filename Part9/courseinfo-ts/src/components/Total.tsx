@@ -3,7 +3,12 @@ interface TotalProps {
 }
 
 const Total = ({ totalExercises }: TotalProps) => {
-  return <p>Number of exercises {totalExercises}</p>;
+  return (
+    <p>
+      <b>Number of exercises : </b>
+      {totalExercises}
+    </p>
+  );
 };
 
 export default Total;
