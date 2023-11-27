@@ -1,13 +1,8 @@
-import {
-  NonSensitivePatientData,
-  Diagnose,
-  NewPatient,
-  Gender,
-} from "../types";
+import { NonSensitivePatient, Diagnose, NewPatient, Gender } from "../types";
 import patientData from "../data/patients";
 import diagnosesData from "../data/diagnoses";
 
-export const getNonSensitivePatientEntries = (): NonSensitivePatientData[] => {
+export const getNonSensitivePatientEntries = (): NonSensitivePatient[] => {
   return patientData.map((patient) => ({
     id: patient.id,
     name: patient.name,

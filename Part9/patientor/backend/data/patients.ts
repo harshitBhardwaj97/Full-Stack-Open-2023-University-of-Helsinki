@@ -1,7 +1,7 @@
 import { Gender, Patient } from "../types";
-import { validateNewPatientEntry } from "../utils";
+// import { validateNewPatientEntry } from "../utils";
 
-const data: Patient[] = [
+const patientData: Patient[] = [
   {
     id: "d2773336-f723-11e9-8f0b-362b9e155667",
     name: "John McClane",
@@ -10,6 +10,7 @@ const data: Patient[] = [
     gender: Gender.Male,
     // gender: "male",
     occupation: "New york city cop",
+    entries: [],
   },
   {
     id: "d2773598-f723-11e9-8f0b-362b9e155667",
@@ -19,6 +20,7 @@ const data: Patient[] = [
     gender: Gender.Male,
     // gender: "male",
     occupation: "Cop",
+    entries: [],
   },
   {
     id: "d27736ec-f723-11e9-8f0b-362b9e155667",
@@ -28,6 +30,7 @@ const data: Patient[] = [
     gender: Gender.Other,
     // gender: "other",
     occupation: "Technician",
+    entries: [],
   },
   {
     id: "d2773822-f723-11e9-8f0b-362b9e155667",
@@ -37,6 +40,7 @@ const data: Patient[] = [
     gender: Gender.Female,
     // gender: "female",
     occupation: "Forensic Pathologist",
+    entries: [],
   },
   {
     id: "d2773c6e-f723-11e9-8f0b-362b9e155667",
@@ -46,13 +50,14 @@ const data: Patient[] = [
     gender: Gender.Male,
     // gender: "male",
     occupation: "Digital evangelist",
+    entries: [],
   },
 ];
 
-const patientData: Patient[] = data.map((obj) => {
-  const object = validateNewPatientEntry(obj) as Patient;
-  object.id = obj.id;
-  return object;
-});
+// const patientData: Patient[] = data.map((obj) => {
+//   const object = validateNewPatientEntry(obj) as Patient;
+//   object.id = obj.id;
+//   return object;
+// });
 
 export default patientData;
